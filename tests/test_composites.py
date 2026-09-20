@@ -10,6 +10,10 @@ from process_bigraph.emitter import RAMEmitter
 from pbg_compucell3d.processes import CompuCell3DProcess
 from pbg_compucell3d.composites import make_cc3d_document
 
+# cc3d is conda-only (not pip-installable); skip the whole module on runners
+# without it (e.g. the uv-based CI). Runs normally in the pixi env.
+pytest.importorskip("cc3d")
+
 
 @pytest.fixture
 def core():

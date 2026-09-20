@@ -1,0 +1,5 @@
+{
+  "title": "Chemotactic Migration \u2014 population over time",
+  "caption": "Number of cells on the lattice across the simulation.",
+  "interpretation": "Cell count goes 45 \u2192 16 over 2,000 MCS."
+}

@@ -1,0 +1,80 @@
+schema_version: 3
+name: chemotaxis
+status: complete
+phase: Decide
+confidence: Accepted
+investigation: cpm-demonstrations
+title: "Chemotaxis on a secreted, diffusing field"
+
+question: |
+  Can the wrapper couple a secretion source, a finite-difference diffusion field, and
+  a chemotaxis response inside one CompuCell3D Process so that responder cells migrate
+  directionally on the resulting gradient?
+
+hypothesis: |
+  Source cells secreting a diffusible signal set up a spatial gradient; responder cells
+  with a chemotaxis term bias their motion up that gradient and migrate toward the
+  source region.
+
+objective: |
+  Run the secretion + diffusion + chemotaxis composite on an 80x80 lattice for 2000
+  Monte-Carlo steps through `CompuCell3DProcess`, exposing the concentration field in
+  the animated scene and reading population back through the output ports.
+
+description: |
+  A minimal chemotaxis slice: type-A source cells secrete a "Signal" field solved by the
+  wrapper's finite-difference diffusion step, and type-B responders chemotax up its
+  gradient. The run is a single real cc3d 4.6.0 trajectory. The committed scene overlays
+  the live concentration field on the cell lattice so the gradient and the response are
+  visible together.
+
+claim: |
+  The composite runs the real engine with an emergent, evolving concentration field and
+  drives net responder migration toward the source. Under this configuration the
+  responder population contracts over the run (45 -> 16 cells across 2000 MCS) as cells
+  move up-gradient — reported as observed, not as a tuned recruitment yield.
+
+baseline:
+- name: chemotaxis
+  composite: pbg_compucell3d.processes
+  params: {dim_x: 80, dim_y: 80, total_mcs: 2000}
+
+expected_behavior:
+- A concentration gradient forms from the secreting source (visible in the scene overlay).
+- Responder cells move up the gradient toward the source.
+- Population changes over the run are reported honestly from the output ports.
+
+readouts:
+- name: Cell population
+  identifier: n_cells
+  units: cells
+  status: measured
+  description: Contracts 45 -> 16 over 2000 MCS as responders migrate up-gradient.
+- name: Concentration field
+  identifier: conc_field
+  status: qualitative
+  description: Diffusing secreted field, overlaid on the lattice in the animated scene.
+- name: Directional migration
+  identifier: gradient_response
+  status: qualitative
+  description: Net motion of responders toward the source, shown in the committed scene.
+
+behavior_tests:
+- name: Secretion + diffusion + chemotaxis runs and drives migration
+  classification: demonstration
+  description: |
+    The coupled secretion/diffusion/chemotaxis composite runs on cc3d 4.6.0 through the
+    single-Process wrapper, evolves a concentration field, and produces net up-gradient
+    responder migration (committed animated scene with field overlay + population chart).
+
+visualizations:
+- name: Population, composition & morphometry
+  address: charts/
+
+embed_visualizations:
+- name: Animated lattice scene (with concentration overlay)
+  title: "Chemotaxis — animated lattice + secreted field (toggle the field, play / scrub)"
+  url: /workspace/studies/chemotaxis/viz/scene.html
+
+limitations:
+- Directional migration is shown qualitatively (animated scene with field overlay); a quantitative directional statistic (e.g. mean centroid displacement toward the source) is not computed here. The population attrition under this parameter set is reported as observed rather than tuned away.

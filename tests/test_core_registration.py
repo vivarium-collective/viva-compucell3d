@@ -127,6 +127,13 @@ def test_workspace_processes_registered():
     core_mod = importlib.import_module(f"{package_name}.core")
     core = core_mod.build_core()
 
+    if not hasattr(core, "link_registry"):
+        pytest.skip(
+            "process-bigraph in this env predates the link_registry API "
+            "(the cc3d/pixi env pins 0.0.x); registration is exercised by the "
+            "workbench/CI env instead."
+        )
+
     own = _own_process_classes(package_name)
     if not own:
         pytest.skip(
