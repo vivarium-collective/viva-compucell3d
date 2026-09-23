@@ -1,0 +1,9 @@
+scenario: chemotaxis
+title: Chemotactic Migration
+lattice: 80x80
+total_mcs: 2000
+snapshots: 21
+cells: 45 -> 16
+cc3d_runtime_s: 6.2
+wall_s: 6.4
+cc3d_version: 4.6.0

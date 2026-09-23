@@ -1,0 +1,5 @@
+{
+  "title": "Tumor Spheroid Invasion \u2014 population over time",
+  "caption": "Number of cells on the lattice across the simulation.",
+  "interpretation": "Cell count goes 25 \u2192 675 over 4,000 MCS."
+}

@@ -11,17 +11,24 @@ requires-python = ">=3.11"
 dependencies = [
     "process-bigraph>=0.0.10",
     "bigraph-schema",
-    "pbg-superpowers",
+    "viva-superpowers",
     "numpy",
     "matplotlib",
     "pyyaml",
+    "bigraph-viz>=2.0.3",
+    "jsonschema[format-nongpl]>=4.21",
+    "jinja2>=3.1",
+    "pypdf>=4.0",
+    "plotly",
+    "vivarium-workbench",
 ]
 
 [project.optional-dependencies]
 dev = ["pytest", "bigraph-viz"]
 
 [tool.uv.sources]
-pbg-superpowers = { git = "https://github.com/vivarium-collective/pbg-superpowers.git", branch = "main" }
+viva-superpowers = { git = "https://github.com/vivarium-collective/viva-superpowers.git", branch = "main" }
+vivarium-workbench = { git = "https://github.com/vivarium-collective/vivarium-workbench.git", branch = "main" }
 
 [tool.setuptools.packages.find]
 include = ["pbg_compucell3d*"]

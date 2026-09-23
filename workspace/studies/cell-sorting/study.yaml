@@ -1,0 +1,80 @@
+schema_version: 3
+name: cell-sorting
+status: complete
+phase: Decide
+confidence: Accepted
+investigation: cpm-demonstrations
+title: "Differential-adhesion cell sorting"
+
+question: |
+  Given two cell types with unequal contact energies, does the wrapped CompuCell3D
+  engine reorganise an initially mixed blob so that like cells associate — the
+  Steinberg differential-adhesion effect — driven entirely through the Process's
+  typed config?
+
+hypothesis: |
+  With type-A homotypic adhesion strong (low contact energy) and type-B weaker,
+  minimising interfacial energy drives the two populations to segregate while the
+  total cell count is conserved.
+
+objective: |
+  Initialise a mixed two-type blob on an 80x80 lattice, advance the real engine for
+  3000 Monte-Carlo steps through `CompuCell3DProcess`, and read cell counts and
+  morphometry back through the wrapper's output ports.
+
+description: |
+  A canonical Cellular-Potts sorting setup: two cell populations (type A, type B) start
+  mixed; differential contact energies make unlike-unlike interfaces costly, so the
+  system lowers its energy by clustering like cells and smoothing type boundaries. The
+  run is a single real cc3d 4.6.0 trajectory; nothing here is reimplemented.
+
+claim: |
+  The wrapper drives genuine differential-adhesion sorting: the 45-cell population
+  (16 type-A, 29 type-B) is conserved while the mean cell surface rises from 22.3 to
+  28.0 px over 3000 MCS as cells reorganise and like-cell boundaries consolidate.
+
+baseline:
+- name: sorting
+  composite: pbg_compucell3d.processes
+  params: {dim_x: 80, dim_y: 80, total_mcs: 3000}
+
+expected_behavior:
+- Total cell count is conserved (no growth/death terms).
+- Cells segregate by type; the animated scene shows like cells associating over time.
+- Mean cell surface changes as boundaries reorganise.
+
+readouts:
+- name: Cell population
+  identifier: n_cells
+  units: cells
+  status: measured
+  description: Conserved at 45 (16 type-A, 29 type-B) throughout the run.
+- name: Mean cell surface
+  identifier: avg_surface
+  units: pixels
+  status: measured
+  description: Rises 22.3 -> 28.0 px as boundaries reorganise.
+- name: Spatial segregation
+  identifier: sorting_morphology
+  status: qualitative
+  description: Segregation of the two cell types, shown in the committed animated scene.
+
+behavior_tests:
+- name: Differential adhesion drives sorting on the real engine
+  classification: demonstration
+  description: |
+    The two-type CPM composite runs on cc3d 4.6.0 through the single-Process wrapper,
+    conserves the population, and produces the expected sorting morphology (committed
+    animated scene + morphometry charts).
+
+visualizations:
+- name: Population, composition & morphometry
+  address: charts/
+
+embed_visualizations:
+- name: Animated lattice scene
+  title: "Differential-adhesion sorting — animated 2-D lattice (play / scrub)"
+  url: /workspace/studies/cell-sorting/viz/scene.html
+
+limitations:
+- Sorting is shown qualitatively (animated scene) plus scalar morphometry; a quantitative segregation statistic (e.g. heterotypic boundary length) is a natural follow-up but is not computed here.

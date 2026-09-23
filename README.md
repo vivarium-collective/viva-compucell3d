@@ -1,6 +1,15 @@
 # pbg-compucell3d
 
-**[View the Interactive Demo Report](https://vivarium-collective.github.io/pbg-compucell3d/)**
+<!-- BEGIN dashboard -->
+> ## 📊 [**Live dashboard →**](https://vivarium-collective.github.io/viva-compucell3d/dashboard/)
+> Browse every investigation & study interactively, or read the [published investigation reports](https://vivarium-collective.github.io/viva-compucell3d/). Auto-published from `main` on every merge.
+<!-- END dashboard -->
+
+The live dashboard above is a read-only mirror of the **[CompuCell3D capability
+demonstration](https://vivarium-collective.github.io/viva-compucell3d/dashboard/)**
+— four real cc3d 4.6.0 runs driven through the wrapper (differential-adhesion
+cell sorting, chemotaxis on a secreted field, growth & division, and spheroid
+invasion), each with an animated 2-D lattice scene and committed charts.
 
 Process-bigraph wrapper for [CompuCell3D](https://compucell3d.org/) — a
 cellular Potts model (CPM / Glazier-Graner-Hogeweg) simulator for

@@ -8,6 +8,10 @@ warnings.filterwarnings('ignore')
 from process_bigraph import allocate_core
 from pbg_compucell3d.processes import CompuCell3DProcess
 
+# cc3d is conda-only (not pip-installable); skip the whole module on runners
+# without it (e.g. the uv-based CI). Runs normally in the pixi env.
+pytest.importorskip("cc3d")
+
 
 @pytest.fixture
 def core():

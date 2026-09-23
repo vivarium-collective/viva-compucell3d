@@ -1,0 +1,9 @@
+scenario: growth
+title: Growth & Division
+lattice: 150x150
+total_mcs: 3000
+snapshots: 21
+cells: 25 -> 800
+cc3d_runtime_s: 38.1
+wall_s: 38.2
+cc3d_version: 4.6.0

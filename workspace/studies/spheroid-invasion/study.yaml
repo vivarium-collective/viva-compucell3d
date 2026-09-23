@@ -1,0 +1,78 @@
+schema_version: 3
+name: spheroid-invasion
+status: complete
+phase: Decide
+confidence: Accepted
+investigation: cpm-demonstrations
+title: "Tumor spheroid invasion"
+
+question: |
+  Can the wrapper reproduce an invasive-growth morphology in CompuCell3D — a
+  proliferating core that expands with a rough, fingering front rather than a smooth
+  disc — driven through the Process config?
+
+hypothesis: |
+  A proliferating cell population with adhesion and surface parameters that favour an
+  extended interface expands as an invasive front: cell count grows and mean cell
+  surface rises faster than for compact growth, reflecting a rougher boundary.
+
+objective: |
+  Seed 25 cells on a 150x150 lattice, advance 4000 Monte-Carlo steps through
+  `CompuCell3DProcess`, and track population and mean surface through the output ports.
+
+description: |
+  An invasion demonstration: a small seed proliferates into a large, spreading mass
+  whose front is rough rather than smooth. The run is a single real cc3d 4.6.0
+  trajectory; the committed scene shows the expanding, fingering morphology.
+
+claim: |
+  The wrapper reproduces an invasive-growth morphology on the real engine: the
+  population expands from 25 to 675 cells over 4000 MCS while mean cell surface rises
+  from 22.3 to 44.1 px — a near-doubling that signals the rough, extended invasive
+  front rather than a smooth compact disc.
+
+baseline:
+- name: invasion
+  composite: pbg_compucell3d.processes
+  params: {dim_x: 150, dim_y: 150, total_mcs: 4000}
+
+expected_behavior:
+- Population grows substantially by proliferation.
+- Mean cell surface rises markedly (rough, extended front).
+- The animated scene shows an invasive, fingering boundary rather than a smooth disc.
+
+readouts:
+- name: Cell population
+  identifier: n_cells
+  units: cells
+  status: measured
+  description: Expands 25 -> 675 cells over 4000 MCS.
+- name: Mean cell surface
+  identifier: avg_surface
+  units: pixels
+  status: measured
+  description: Rises 22.3 -> 44.1 px, reflecting the rough invasive front.
+- name: Invasion morphology
+  identifier: invasion_front
+  status: qualitative
+  description: Fingering, expanding front shown in the committed animated scene.
+
+behavior_tests:
+- name: Invasive proliferation morphology on the real engine
+  classification: demonstration
+  description: |
+    The invasion composite runs on cc3d 4.6.0 through the single-Process wrapper and
+    produces a proliferating core with a rough, expanding front (committed animated
+    scene + population/surface charts).
+
+visualizations:
+- name: Population, composition & morphometry
+  address: charts/
+
+embed_visualizations:
+- name: Animated lattice scene
+  title: "Spheroid invasion — animated 2-D lattice (play / scrub)"
+  url: /workspace/studies/spheroid-invasion/viz/scene.html
+
+limitations:
+- Surface growth is used as a proxy for front roughness; a dedicated invasion metric (e.g. radius-of-gyration or boundary fractal dimension) is a natural follow-up.
