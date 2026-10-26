@@ -1,7 +1,7 @@
-# pbg-compucell3d
+# viva-compucell3d
 
 <!-- BEGIN dashboard -->
-> ## 📊 [**Live dashboard →**](https://vivarium-collective.github.io/viva-compucell3d/dashboard/)
+> ## [**Live dashboard →**](https://vivarium-collective.github.io/viva-compucell3d/dashboard/)
 > Browse every investigation & study interactively, or read the [published investigation reports](https://vivarium-collective.github.io/viva-compucell3d/). Auto-published from `main` on every merge.
 <!-- END dashboard -->
 
