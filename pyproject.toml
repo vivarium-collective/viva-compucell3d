@@ -32,3 +32,6 @@ vivarium-workbench = { git = "https://github.com/vivarium-collective/vivarium-wo
 
 [tool.setuptools.packages.find]
 include = ["pbg_compucell3d*"]
+
+[tool.setuptools.package-data]
+"pbg_compucell3d.composites" = ["*.composite.yaml"]

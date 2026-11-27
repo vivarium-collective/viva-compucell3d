@@ -1,0 +1,78 @@
+name: growth-division-demo
+description: "CompuCell3D growth + mitosis demo: each cell target volume ramps upward (growth_rate_per_mcs > 0) and splits via the CPM mitosis steppable when it exceeds division_volume, so the population grows roughly geometrically. Same single CompuCell3DProcess with growth + division enabled. Emits cell counts, mean volume/surface, and MCS."
+tags: [agent-based, cells, cellular-potts, growth, mitosis, demo]
+
+requires:
+  processes: [CompuCell3DProcess, RAMEmitter]
+
+parameters:
+  interval:
+    type: float
+    default: 50.0
+    description: "PBG interval per update (MCS count). The CC3DSimService advances this many Monte Carlo Steps per Process.update()."
+  mcs_per_step:
+    type: int
+    default: 50
+    description: "Fallback MCS count if interval rounds down to zero."
+  dim_x:
+    type: int
+    default: 150
+    description: "Lattice width in pixels."
+  dim_y:
+    type: int
+    default: 150
+    description: "Lattice height in pixels."
+
+state:
+  cc3d:
+    _type: process
+    address: "local:CompuCell3DProcess"
+    config:
+      dim_x: "${dim_x}"
+      dim_y: "${dim_y}"
+      fluctuation_amplitude: 10.0
+      target_volume: 25
+      lambda_volume: 2.0
+      blob_radius: 10
+      cell_width: 4
+      contact_medium_t1: 16.0
+      contact_medium_t2: 16.0
+      contact_t1_t1: 2.0
+      contact_t1_t2: 11.0
+      contact_t2_t2: 16.0
+      division_volume: 50
+      growth_rate_per_mcs: 1.0
+      mcs_per_step: "${mcs_per_step}"
+    outputs:
+      n_cells: ["stores", "n_cells"]
+      type_1_count: ["stores", "type_1_count"]
+      type_2_count: ["stores", "type_2_count"]
+      avg_volume: ["stores", "avg_volume"]
+      avg_surface: ["stores", "avg_surface"]
+      mcs: ["stores", "mcs"]
+    interval: "${interval}"
+  stores:
+    n_cells: 0
+    type_1_count: 0
+    type_2_count: 0
+    avg_volume: 0.0
+    avg_surface: 0.0
+    mcs: 0
+  emitter:
+    _type: step
+    address: "local:RAMEmitter"
+    config:
+      emit:
+        n_cells: "integer"
+        type_1_count: "integer"
+        type_2_count: "integer"
+        avg_volume: "float"
+        avg_surface: "float"
+        mcs: "integer"
+    inputs:
+      n_cells: ["stores", "n_cells"]
+      type_1_count: ["stores", "type_1_count"]
+      type_2_count: ["stores", "type_2_count"]
+      avg_volume: ["stores", "avg_volume"]
+      avg_surface: ["stores", "avg_surface"]
+      mcs: ["stores", "mcs"]
